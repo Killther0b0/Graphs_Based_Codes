@@ -25,41 +25,59 @@ int dx[]={0,0,+1,-1,+1,-1,-1,+1} ;
 int dy[]={+1,-1,0,0,+1,-1,+1,-1} ;
 ///   ***   ---   |||__________LET'S BEGIN (-_^)________|||   ---   ***   ///
 
-const ll infLL = 1e15 ;
+const ll infLL = 1e18 ;
 const int inf = 1e9 ;
 const int mod = 1e6+3 ;
 const int mx = 1e5+123 ;
-ll n , ans[mx],m;
+ll n, m, par[mx], dis[mx];
 vll adj[mx];
+vl path;
+bool b=true;
 
-void dijkstra(ll source )
+
+void dijkstra(ll source)
 {
-    for(int i=1;i<=n;i++) ans[i]=infLL;  // initialization
-    ans[source]=0;
-
-
+    for(int i=1;i<=n;i++) dis[i]=infLL;
+    dis[source]=0;
     priority_queue<pll>q;
 
-    q.push({0,source});  // pushing source in queue
+    q.push({-0,source});  // pushing source in queue
 
     while( !q.empty() )
     {
         ll cost= -1 * q.top().first ;
         ll node= q.top().second ;
         q.pop();
-        if(ans[node]<cost) continue;  // not checking the route which is already bigger //
+        if(dis[node]<cost) continue;  // not checking the route which is already bigger //
 
         for(auto i:adj[node])
         {
             ll adj_cost=i.second;
             ll adj_node=i.first;
-            if( cost+adj_cost<ans[adj_node] )  // relaxation //
+            if( cost+adj_cost<dis[adj_node] )  // relaxation //
             {
-                ans[adj_node]=cost+adj_cost;
-                q.push({-ans[adj_node],adj_node});
+                par[adj_node]=node;
+                dis[adj_node]=cost+adj_cost;
+                q.push({-dis[adj_node],adj_node});
             }
         }
     }
+    //for(int i=1;i<11;i++) cout << par[i] << ' ' ;
+}
+
+void making_path(ll last_node)
+{
+    if(dis[last_node]==infLL)
+    {
+        b=false ;
+        return;
+    }
+    while(last_node!=0)
+    {
+        path.push_back(last_node);
+        last_node=par[last_node];
+    }
+
 }
 
 void _case_( )
@@ -73,8 +91,13 @@ void _case_( )
         adj[v].push_back({u,w});
     }
     dijkstra(1);
-    for(int i=1;i<=n;i++)
-        cout << ans[i] << ' ' ;
+    making_path(n);
+    if(b)
+    {
+        reverse(path.begin(),path.end());
+        for(auto i:path) cout << i << ' ';
+    }
+    else cout << -1 el;
 }
 
 int main( )
