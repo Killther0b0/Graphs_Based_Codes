@@ -41,11 +41,14 @@ void bfs( int s){
     queue<int>q;
     q.push(s);
 
-    while(!q.empty()){
+    while(!q.empty())
+    {
         int temp=q.front();
         q.pop();
-        for(auto k:node[temp]){
-            if(lev[k]==-1){
+        for(auto k:node[temp])
+        {
+            if(lev[k]==-1)
+            {
                 lev[k]=lev[temp]+1;
                 q.push(k);
             }
@@ -54,13 +57,15 @@ void bfs( int s){
 
 }
 
-void _case_(){
+void _case_()
+{
 
     for(int i=0;i<mx;i++)
         node[i].clear();
 
     cin >> n >> m;
-    for(int i=1;i<=m;i++){
+    for(int i=1;i<=m;i++)
+    {
         cin >> u >> v;
         node[u].push_back(v);
         node[v].push_back(u);
