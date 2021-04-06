@@ -39,7 +39,7 @@ void dijkstra(ll source )
     ans[source]=0;
 
 
-    priority_queue<pll>q;
+    priority_queue<pll,vll,greater<>>q;
 
     q.push({0,source});  // pushing source in queue
 
